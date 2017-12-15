@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fix major="4" minor="4"> 
+  <header> 
+    <field name="BeginString" required="Y"/>  
+    <field name="BodyLength" required="Y"/>  
+    <field name="MsgType" required="Y"/>  
+    <field name="SenderCompID" required="Y"/>  
+    <field name="TargetCompID" required="Y"/>  
+    <field name="OnBehalfOfCompID" required="N"/>  
+    <field name="DeliverToCompID" required="N"/>  
+    <field name="SecureDataLen" required="N"/>  
+    <field name="SecureData" required="N"/>  
+    <field name="MsgSeqNum" required="Y"/>  
+    <field name="SenderSubID" required="N"/>  
+    <field name="SenderLocationID" required="N"/>  
+    <field name="TargetSubID" required="N"/>  
+    <field name="TargetLocationID" required="N"/>  
+    <field name="OnBehalfOfSubID" required="N"/>  
+    <field name="OnBehalfOfLocationID" required="N"/>  
+    <field name="DeliverToSubID" required="N"/>  
+    <field name="DeliverToLocationID" required="N"/>  
+    <field name="PossDupFlag" required="N"/>  
+    <field name="PossResend" required="N"/>  
+    <field name="SendingTime" required="Y"/>  
+    <field name="OrigSendingTime" required="N"/>  
+    <field name="XmlDataLen" required="N"/>  
+    <field name="XmlData" required="N"/>  
+    <field name="MessageEncoding" required="N"/>  
+    <field name="LastMsgSeqNumProcessed" required="N"/>  
+    <group name="NoHops" required="N"> 
+      <field name="HopCompID" required="N"/>  
+      <field name="HopSendingTime" required="N"/>  
+      <field name="HopRefID" required="N"/> 
+    </group> 
+  </header>  
+  <trailer> 
+    <field name="SignatureLength" required="N"/>  
+    <field name="Signature" required="N"/>  
+    <field name="CheckSum" required="Y"/> 
+  </trailer> 
+</fix>

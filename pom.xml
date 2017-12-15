@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fixed</groupId>
+    <artifactId>fixed</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>fixed-core</module>
+        <module>fixed-ui</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <name>com.fixed</name>
+    <url>http://maven.apache.org</url>
+
+
+    <scm>
+        <connection>scm:git:https://github.com/onurkaraduman/fixed.git</connection>
+        <developerConnection>scm:git:https://github.com/onurkaraduman/fixed.git</developerConnection>
+      <tag>HEAD</tag>
+  </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.version>1.0-SNAPSHOT</project.version>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.8.3</version>
+                <configuration>
+                    <vendor>fixed</vendor>
+                    <mainClass>com.fixed.editor.App</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

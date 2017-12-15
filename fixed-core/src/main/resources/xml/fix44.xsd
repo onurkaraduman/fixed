@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="fix" type="fixType"/>
+  <xs:complexType name="componentType" mixed="true">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="fieldType" name="field"/>
+      <xs:element type="componentType" name="component"/>
+      <xs:element type="groupType" name="group"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="required" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="groupType" mixed="true">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="fieldType" name="field"/>
+      <xs:element type="componentType" name="component"/>
+      <xs:element type="groupType" name="group"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="required" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="messageType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="fieldType" name="field"/>
+      <xs:element type="groupType" name="group"/>
+      <xs:element type="componentType" name="component"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="msgtype" use="optional"/>
+    <xs:attribute type="xs:string" name="msgcat" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="fixType">
+    <xs:sequence>
+      <xs:element type="headerType" name="header"/>
+      <xs:element type="trailerType" name="trailer"/>
+      <xs:element type="messagesType" name="messages"/>
+      <xs:element type="componentsType" name="components"/>
+      <xs:element type="fieldsType" name="fields"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="major"/>
+    <xs:attribute type="xs:string" name="minor"/>
+  </xs:complexType>
+  <xs:complexType name="messagesType">
+    <xs:sequence>
+      <xs:element type="messageType" name="message" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="valueType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="enum" use="optional"/>
+        <xs:attribute type="xs:string" name="description" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="headerType">
+    <xs:sequence>
+      <xs:element type="fieldType" name="field" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="groupType" name="group"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="componentsType">
+    <xs:sequence>
+      <xs:element type="componentType" name="component" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="trailerType">
+    <xs:sequence>
+      <xs:element type="fieldType" name="field" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fieldType" mixed="true">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="fieldType" name="field"/>
+      <xs:element type="componentType" name="component"/>
+      <xs:element type="groupType" name="group"/>
+      <xs:element type="valueType" name="value"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="required" use="optional"/>
+    <xs:attribute type="xs:string" name="number" use="optional"/>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="allowOtherValues" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="fieldsType">
+    <xs:sequence>
+      <xs:element type="fieldType" name="field" maxOccurs="unbounded" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Changed to string in FIX5.0, overrides this field type 
+      Temporarily commented out until we can handle
+      N>1 scenario
+      &lt;value enum="0" description="FULL_BOOK"/>
+      &lt;value enum="1" description="TOP_OF_BOOK"/>
+ This changed to an int in FIX5.0</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
