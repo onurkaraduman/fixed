@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.*?>
+<?import com.fixed.editor.tab.edit.pane.EditPane?>
+<AnchorPane minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+            AnchorPane.topAnchor="0.0" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.fixed.editor.controller.EditTabController">
+    <children>
+        <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab text="Edit">
+                    <content>
+                        <EditPane fx:id="gpEdit" hgap="10" prefWidth="0.0" vgap="10">
+                        </EditPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

@@ -1,4 +1,4 @@
-import com.noxml.reader.XmlReader;
+import com.fixed.reader.XmlReader;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -14,7 +14,7 @@ public class Test {
 
     @org.junit.Test
     public void test() throws DocumentException {
-        XmlReader xmlReader = new XmlReader(Paths.get("src/main/resources/com/noxml/tree/fix44-short.xml"));
+        XmlReader xmlReader = new XmlReader(Paths.get("src/main/resources/com/fixed/tree/fix44-short.xml"));
         Document document = xmlReader.getDocument();
         Element rootElement = document.getRootElement();
         Element testElement = DocumentHelper.createElement("testElement");
