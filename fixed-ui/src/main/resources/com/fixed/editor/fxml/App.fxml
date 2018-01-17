@@ -20,7 +20,7 @@
                         <SplitPane dividerPositions="0.3058823529411765" AnchorPane.bottomAnchor="0.0"
                                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <items>
-                                <fx:include fx:id="textTab" source="TextTab.fxml"/>
+                                <fx:include fx:id="textTab" source="DictionaryTab.fxml"/>
                                 <fx:include fx:id="xmlTab" source="XmlTab.fxml"/>
                             </items>
                         </SplitPane>
@@ -32,7 +32,7 @@
                         <SplitPane dividerPositions="0.3058823529411765" AnchorPane.bottomAnchor="0.0"
                                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <items>
-                                <fx:include fx:id="textTab2" source="TextTab.fxml"/>
+                                <fx:include fx:id="textTab2" source="FixMessageTab.fxml"/>
                                 <fx:include fx:id="fixTab" source="FixTab.fxml"/>
                             </items>
                         </SplitPane>

@@ -1,7 +1,7 @@
-package com.fixed.editor.tab.text;
+package com.fixed.editor.tab.dictionary;
 
 
-import com.fixed.editor.tab.text.pane.TextPane;
+import com.fixed.editor.tab.dictionary.pane.TextPane;
 import javafx.event.EventHandler;
 import org.apache.commons.io.IOUtils;
 

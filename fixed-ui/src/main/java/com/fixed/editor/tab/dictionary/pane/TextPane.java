@@ -1,4 +1,4 @@
-package com.fixed.editor.tab.text.pane;
+package com.fixed.editor.tab.dictionary.pane;
 
 import com.fixed.ui.Component;
 import javafx.beans.value.ChangeListener;

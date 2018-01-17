@@ -2,7 +2,7 @@ package com.fixed.editor.tab.history;
 
 import com.fixed.editor.history.XmlEditorMemento;
 import com.fixed.editor.history.XmlEditorMementoManager;
-import com.fixed.editor.tab.text.TextTab;
+import com.fixed.editor.tab.dictionary.TextTab;
 import com.fixed.editor.tab.xml.XmlTab;
 import javafx.scene.control.TableView;
 
