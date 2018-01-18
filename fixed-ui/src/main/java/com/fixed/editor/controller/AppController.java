@@ -1,12 +1,13 @@
 package com.fixed.editor.controller;
 
-import com.fixed.editor.App;
-import com.fixed.editor.FixEditor;
-import javafx.fxml.FXML;
-import org.dom4j.DocumentException;
-
 import java.io.IOException;
 
+import org.dom4j.DocumentException;
+
+import com.fixed.editor.App;
+import com.fixed.editor.FixEditor;
+
+import javafx.fxml.FXML;
 
 /**
  * @author Onur Karaduman
@@ -14,33 +15,41 @@ import java.io.IOException;
  */
 public class AppController {
 
-    @FXML
-    private HistoryTabController historyTabController;
+	@FXML
+	private HistoryTabController historyTabController;
 
-    @FXML
-    private XmlTabController xmlTabController;
+	@FXML
+	private XmlTabController xmlTabController;
 
-    @FXML
-    private EditTabController editTabController;
+	@FXML
+	private EditTabController editTabController;
 
-    @FXML
-    private MenuBarController menuController;
+	@FXML
+	private MenuBarController menuController;
 
-    @FXML
-    private TextTabController textTabController;
+	@FXML
+	private DictionaryTabController dictionaryTabController;
 
-    @FXML
-    private LogTabController logTabController;
+	@FXML
+	private LogTabController logTabController;
 
-    public static FixEditor editor;
+	@FXML
+	private FixTabController fixTabController;
 
-    @FXML
-    private void initialize() throws DocumentException, IOException {
-        String path = null;
-        if (App.args != null && App.args.length > 0) {
-            path = App.args[0];
-        }
-        editor = new FixEditor(path, xmlTabController.getTreeView(), editTabController.getGpEdit(), historyTabController.getTblHistory(), textTabController.getTxtPane(), logTabController.getTblLog());
-        menuController.injectXmlTabController(xmlTabController);
-    }
+	@FXML
+	private FixMessageTabController fixMessageTabController;
+
+	public static FixEditor editor;
+
+	@FXML
+	private void initialize() throws DocumentException, IOException {
+		String path = null;
+		if (App.args != null && App.args.length > 0) {
+			path = App.args[0];
+		}
+		editor = new FixEditor(path, xmlTabController.getTreeView(), editTabController.getGpEdit(), historyTabController.getTblHistory(),
+				dictionaryTabController.getTxtPane(), logTabController.getTblLog(), fixTabController.getFixTreeView(), null,
+				fixMessageTabController.getTxtPane());
+		menuController.injectXmlTabController(xmlTabController);
+	}
 }

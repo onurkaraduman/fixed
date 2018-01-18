@@ -1,7 +1,7 @@
-package com.fixed.editor.tab.dictionary;
+package com.fixed.editor.tab.common;
 
 
-import com.fixed.editor.tab.dictionary.pane.TextPane;
+import com.fixed.editor.tab.common.pane.TextPane;
 import javafx.event.EventHandler;
 import org.apache.commons.io.IOUtils;
 
@@ -20,13 +20,13 @@ public class TextTab {
     public TextTab(String path, TextPane textPane) throws IOException {
         this.textPane = textPane;
         if (path != null && !path.isEmpty()) {
-            this.textPane.loadXml(IOUtils.toString(new FileInputStream(path)));
+            this.textPane.loadContent(IOUtils.toString(new FileInputStream(path)));
         }
     }
 
 
     public void loadXml(String xml) {
-        textPane.loadXml(xml);
+        textPane.loadContent(xml);
     }
 
     public void addChangeHandler(EventHandler handler) {
@@ -34,6 +34,6 @@ public class TextTab {
     }
 
     public String getXml() {
-        return textPane.getXml();
+        return textPane.getContent();
     }
 }

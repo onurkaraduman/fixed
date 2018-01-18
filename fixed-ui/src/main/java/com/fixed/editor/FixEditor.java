@@ -7,22 +7,23 @@ import com.fixed.editor.tab.edit.EditHandlerType;
 import com.fixed.editor.tab.edit.EditTab;
 import com.fixed.editor.tab.edit.pane.EditPane;
 import com.fixed.editor.tab.fix.FixTab;
+import com.fixed.editor.tab.fix.FixTreeTableView;
 import com.fixed.editor.tab.history.HistoryTab;
 import com.fixed.editor.tab.log.LogTab;
-import com.fixed.editor.tab.dictionary.TextTab;
-import com.fixed.editor.tab.dictionary.pane.TextPane;
+import com.fixed.editor.tab.common.TextTab;
+import com.fixed.editor.tab.common.pane.TextPane;
 import com.fixed.editor.tab.xml.XmlTab;
 import com.fixed.editor.tab.xml.XmlTreeCell;
 import com.fixed.editor.tab.xml.XmlTreeView;
 import com.fixed.logging.Logger;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.dom4j.DocumentException;
+import quickfix.ConfigError;
 
 import java.io.File;
 import java.io.FileReader;
@@ -35,31 +36,37 @@ public class FixEditor implements Editor {
 	private XmlTab xmlTab;
 	private EditTab editTab;
 	private HistoryTab historyTab;
-	private TextTab textTab;
+	private TextTab dictionaryTab;
 	private LogTab logTab;
 	private FixTab fixTab;
+	private TextTab fixMessageTab;
 
-	public FixEditor(String path, XmlTreeView treeView, EditPane gridPane, TableView tableView, TextPane textPane, TableView logTable, TreeTableView fixTable)
+	public FixEditor(String dictionaryPath, XmlTreeView treeView, EditPane gridPane, TableView tableView, TextPane dictionaryPane, TableView logTable,
+					 FixTreeTableView fixTreeView, String fixMessagePath, TextPane fixMessagePane)
 			throws DocumentException, IOException {
 		XmlEditorMementoManager mementoManager = new XmlEditorMementoManager();
-		xmlTab = new XmlTab(path, treeView, mementoManager);
-		init(path, gridPane, tableView, mementoManager, textPane, logTable);
+		xmlTab = new XmlTab(dictionaryPath, treeView, mementoManager);
+		init(dictionaryPath, gridPane, tableView, mementoManager, dictionaryPane, logTable, fixTreeView, fixMessagePath, fixMessagePane);
 
 	}
 
-	public FixEditor(XmlTreeView treeView, EditPane gridPane, TableView tableView, TextPane textPane, TableView logTable, TreeTableView fixTable)
+	public FixEditor(XmlTreeView treeView, EditPane gridPane, TableView tableView, TextPane dictionaryPane, TableView logTable, FixTreeTableView fixTreeView,
+			String fixMessagePath, TextPane fixMessagePane)
 			throws DocumentException, IOException {
 		XmlEditorMementoManager mementoManager = new XmlEditorMementoManager();
 		xmlTab = new XmlTab(treeView, mementoManager);
-		init(null, gridPane, tableView, mementoManager, textPane, logTable);
+		init(null, gridPane, tableView, mementoManager, dictionaryPane, logTable, fixTreeView, fixMessagePath, fixMessagePane);
 	}
 
-	private void init(String path, EditPane editPane, TableView tableView, XmlEditorMementoManager mementoManager, TextPane textPane, TableView logTable)
+	private void init(String path, EditPane editPane, TableView tableView, XmlEditorMementoManager mementoManager, TextPane dictionaryPane, TableView logTable,
+					  FixTreeTableView fixTreeView, String fixmessagePath, TextPane fixMessagePane)
 			throws IOException {
-		textTab = new TextTab(path, textPane);
+		dictionaryTab = new TextTab(path, dictionaryPane);
 		editTab = new EditTab(editPane);
-		historyTab = new HistoryTab(tableView, mementoManager, xmlTab, textTab);
+		historyTab = new HistoryTab(tableView, mementoManager, xmlTab, dictionaryTab);
 		logTab = new LogTab(logTable);
+		fixTab = new FixTab(fixTreeView);
+		fixMessageTab = new TextTab(fixmessagePath, fixMessagePane);
 		xmlTab.getXmlTreeView().addEventHandler(XmlEventHandlerAction.ITEM_CLICK, event -> {
 			editTab.laodCell((XmlTreeCell) event.getSource());
 			xmlTab.setChangeType(ChangeType.REVISION);
@@ -71,44 +78,53 @@ public class FixEditor implements Editor {
 		editTab.addEventHandler(EditHandlerType.SAVE, event -> {
 			try {
 				xmlTab.saveState();
-				textTab.loadXml(xmlTab.toXml());
+				dictionaryTab.loadXml(xmlTab.toXml());
 				LOG.info("Saved successfully");
 			} catch (IOException e) {
-				LOG.error("Error during dictionary loading:", e);
+				LOG.error("Error during dictionaryTab loading:", e);
 			}
 		});
-		textTab.addChangeHandler(event -> {
+		dictionaryTab.addChangeHandler(event -> {
 			try {
-				xmlTab.loadXmlText(textTab.getXml());
+				xmlTab.loadXmlText(dictionaryTab.getXml());
 			} catch (DocumentException e) {
-				LOG.error("Error during dictionary loading:", e);
+				LOG.error("Error during dictionaryTab loading:", e);
+			}
+		});
+		fixMessagePane.addChangeHandler(event -> {
+			try {
+				fixTab.loadMessage(fixMessagePane.getContent(), null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ConfigError configError) {
+				configError.printStackTrace();
 			}
 		});
 	}
 
 	@Override
-	public void undo() {
+	public void undoDictionary() {
 		xmlTab.undo();
 		LOG.info("Undo successfully");
 
 	}
 
 	@Override
-	public void redo() {
+	public void redoDictionary() {
 		xmlTab.redo();
 		LOG.info("Redo successfully");
 
 	}
 
 	@Override
-	public void save() throws IOException {
+	public void saveDictionary() throws IOException {
 		String xmlPath = xmlTab.getXmlTreeView().getXmlPath();
 		xmlTab.export(xmlPath);
 		LOG.info("Saved successfully");
 	}
 
 	@Override
-	public void saveAs(String path) throws IOException {
+	public void saveAsDictionary(String path) throws IOException {
 		xmlTab.export(path);
 		LOG.info("Saved successfully");
 	}
@@ -126,7 +142,7 @@ public class FixEditor implements Editor {
 	}
 
 	@Override
-	public void open() {
+	public void openDictionary() {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Xml files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
@@ -135,7 +151,7 @@ public class FixEditor implements Editor {
 			String xmlPath = file.getAbsolutePath();
 			try {
 				xmlTab.loadXml(xmlPath);
-				textTab.loadXml(xmlTab.toXml());
+				dictionaryTab.loadXml(xmlTab.toXml());
 				LOG.info("Loaded successfully");
 			} catch (DocumentException e) {
 				LOG.error("Error during loading xml. Path:" + xmlPath, e);

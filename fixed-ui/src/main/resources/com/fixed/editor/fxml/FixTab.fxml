@@ -2,33 +2,34 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.fixed.editor.tab.fix.FixTreeTableView?>
 <AnchorPane minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/8.0.121" fx:controller="com.fixed.editor.controller.FixTabController">
-    <children>
-        <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <tabs>
-                <Tab text="FIX">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <TreeTableView fx:id="treeTableView" layoutX="-14.0" layoutY="-61.0" AnchorPane.bottomAnchor="0.0"
-                                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                               AnchorPane.topAnchor="0.0">
-                                    <columns>
-                                        <TreeTableColumn prefWidth="75.0" text="Field Name"/>
-                                        <TreeTableColumn prefWidth="75.0" text="Tag"/>
-                                        <TreeTableColumn prefWidth="75.0" text="Value"/>
-                                        <TreeTableColumn prefWidth="75.0" text="Field Value Name"/>
-                                        <TreeTableColumn prefWidth="75.0" text="Required"/>
-                                    </columns>
-                                </TreeTableView>
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
-    </children>
+  <children>
+    <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab text="FIX">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <FixTreeTableView fx:id="fixTreeView" layoutX="-14.0" layoutY="-61.0" AnchorPane.bottomAnchor="0.0"
+                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                  AnchorPane.topAnchor="0.0">
+                  <columns>
+                    <TreeTableColumn fx:id="tblColumnFieldName" prefWidth="75.0" text="Field Name" />
+                    <TreeTableColumn fx:id="tblColumnTag" prefWidth="75.0" text="Tag" />
+                    <TreeTableColumn fx:id="tblColumnValue" prefWidth="75.0" text="Value" />
+                    <TreeTableColumn fx:id="tblColumnFieldValueName" prefWidth="75.0" text="Field Value Name" />
+                    <TreeTableColumn fx:id="tblColumnRequired" prefWidth="75.0" text="Required" />
+                  </columns>
+                </FixTreeTableView>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
 </AnchorPane>

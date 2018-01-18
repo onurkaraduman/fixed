@@ -1,10 +1,9 @@
 package com.fixed.editor.controller;
 
-import com.fixed.editor.tab.dictionary.pane.TextPane;
+import com.fixed.editor.tab.common.pane.TextPane;
 import javafx.fxml.FXML;
 
-
-public class TextTabController {
+public class FixMessageTabController {
     @FXML
     private TextPane txtPane;
 

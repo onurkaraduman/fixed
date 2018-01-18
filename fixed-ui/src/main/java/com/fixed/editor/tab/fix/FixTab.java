@@ -1,7 +1,13 @@
 package com.fixed.editor.tab.fix;
 
-import com.fixed.fix.parser.FixMessageParser;
-import javafx.scene.control.TreeTableView;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.commons.lang3.StringUtils;
+import org.dom4j.DocumentException;
+
+import quickfix.ConfigError;
 
 /**
  * @author Onur Karaduman
@@ -9,23 +15,30 @@ import javafx.scene.control.TreeTableView;
  */
 public class FixTab {
 
-    private TreeTableView tableTreeView;
-    private FixMessageParser fixMessageParser;
+	private FixTreeTableView fixTreeView;
 
-
-
-	public FixTab(TreeTableView tableTreeView) {
-		this.tableTreeView = tableTreeView;
+	public FixTab(FixTreeTableView fixTreeView) {
+		this.fixTreeView = fixTreeView;
 	}
 
-	private void init(){
+	private void init() {
 
-    }
+	}
 
 	public void update(String messages) {
+
 	}
 
-	public void refresh() {
+	public void loadMessage(String message, String path) throws IOException, ConfigError {
+		if(StringUtils.isEmpty(path)){
+			fixTreeView.loadMessage(message, Paths.get("fixed-ui/src/main/resources/com/fixed/tree/fix44.xml"));
+		}else{
+			fixTreeView.loadMessage(message, Paths.get(path));
+		}
+	}
+
+	public void loadMessage(Path fixPath, Path dictPath) throws IOException, ConfigError, DocumentException {
+		fixTreeView.loadMessage(fixPath, dictPath);
 	}
 
 }

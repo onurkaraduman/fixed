@@ -7,19 +7,19 @@ import java.io.IOException;
  * @since 02.11.17
  */
 public interface Editor {
-    void undo();
+    void undoDictionary();
 
-    void redo();
+    void redoDictionary();
 
-    void save() throws IOException;
+    void saveDictionary() throws IOException;
 
-    void saveAs(String path) throws IOException;
+    void saveAsDictionary(String path) throws IOException;
 
     void refresh();
 
     void close();
 
-    void open();
+    void openDictionary();
 
     void help();
 

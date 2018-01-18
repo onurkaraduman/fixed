@@ -19,7 +19,7 @@ public class XmlTabController {
 
     public void save() {
         try {
-            AppController.editor.save();
+            AppController.editor.saveDictionary();
         } catch (IOException e) {
             LOG.error("Error during saving", e);
         }
@@ -28,17 +28,17 @@ public class XmlTabController {
 
     public void saveAs(String path) {
         try {
-            AppController.editor.saveAs(path);
+            AppController.editor.saveAsDictionary(path);
         } catch (IOException e) {
             LOG.error("Error during saving", e);
         }
     }
 
     public void undo() {
-        AppController.editor.undo();
+        AppController.editor.undoDictionary();
     }
 
     public void redo() {
-        AppController.editor.redo();
+        AppController.editor.redoDictionary();
     }
 }

@@ -20,7 +20,7 @@ public class MenuBarController {
     }
 
     public void handleOpen() {
-        AppController.editor.open();
+        AppController.editor.openDictionary();
     }
 
     public void handleSaveAs() {

@@ -1,7 +1,7 @@
 package com.fixed.editor.tab.history;
 
 import com.fixed.editor.history.XmlEditorMemento;
-import com.fixed.editor.tab.dictionary.TextTab;
+import com.fixed.editor.tab.common.TextTab;
 import com.fixed.editor.tab.xml.XmlTab;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ContextMenu;
