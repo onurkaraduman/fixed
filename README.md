@@ -1,6 +1,6 @@
 # Xml Editor
 
-[![Build Status](https://travis-ci.org/onurkaraduman/com.fixed.svg?branch=master)](https://travis-ci.org/onurkaraduman/com.fixed)
+[![Build Status](https://travis-ci.org/onurkaraduman/fixed.svg?branch=master)](https://travis-ci.org/onurkaraduman/fixed)
 
 The project is started to provide easy operation on xml files with visualization.
 
