@@ -42,7 +42,7 @@ public class FixEditor implements Editor {
 	private TextTab fixMessageTab;
 
 	public FixEditor(String dictionaryPath, XmlTreeView treeView, EditPane gridPane, TableView tableView, TextPane dictionaryPane, TableView logTable,
-					 FixTreeTableView fixTreeView, String fixMessagePath, TextPane fixMessagePane)
+			FixTreeTableView fixTreeView, String fixMessagePath, TextPane fixMessagePane)
 			throws DocumentException, IOException {
 		XmlEditorMementoManager mementoManager = new XmlEditorMementoManager();
 		xmlTab = new XmlTab(dictionaryPath, treeView, mementoManager);
@@ -59,7 +59,7 @@ public class FixEditor implements Editor {
 	}
 
 	private void init(String path, EditPane editPane, TableView tableView, XmlEditorMementoManager mementoManager, TextPane dictionaryPane, TableView logTable,
-					  FixTreeTableView fixTreeView, String fixmessagePath, TextPane fixMessagePane)
+			FixTreeTableView fixTreeView, String fixmessagePath, TextPane fixMessagePane)
 			throws IOException {
 		dictionaryTab = new TextTab(path, dictionaryPane);
 		editTab = new EditTab(editPane);
@@ -87,8 +87,13 @@ public class FixEditor implements Editor {
 		dictionaryTab.addChangeHandler(event -> {
 			try {
 				xmlTab.loadXmlText(dictionaryTab.getXml());
+				fixTab.loadMessageWithDict(fixMessagePane.getContent(), dictionaryTab.getXml());
 			} catch (DocumentException e) {
 				LOG.error("Error during dictionaryTab loading:", e);
+			} catch (ConfigError configError) {
+				configError.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		});
 		fixMessagePane.addChangeHandler(event -> {

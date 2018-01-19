@@ -1,4 +1,4 @@
-# Xml Editor
+# Fix Editor
 
 [![Build Status](https://travis-ci.org/onurkaraduman/fixed.svg?branch=master)](https://travis-ci.org/onurkaraduman/fixed)
 
