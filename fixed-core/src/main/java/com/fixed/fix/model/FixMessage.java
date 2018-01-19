@@ -6,7 +6,7 @@ import quickfix.field.MsgType;
 
 import java.util.*;
 
-public class LogMessage {
+public class FixMessage {
 
 	public static final char DEFAULT_DELIMETER = (char) 0x01;
 	public static final char SOH_DELIMETER = (char) 0x01;
@@ -18,30 +18,35 @@ public class LogMessage {
 	private final String messageTypeName;
 	private final Date sendingTime;
 	private final DataDictionary dictionary;
+	private String name;
+	private String value;
+	private String tag;
 
 	private boolean isValid;
 
-	public LogMessage(int messageIndex, boolean incoming, SessionID sessionId, String rawMessage, DataDictionary dictionary) {
+	public FixMessage(int messageIndex, boolean incoming, SessionID sessionId, String rawMessage, DataDictionary dictionary) {
 		this.messageIndex = messageIndex;
-
+		this.name = "Message " + messageIndex;
 		this.dictionary = dictionary;
 		this.rawMessage = rawMessage.replace(DEFAULT_DELIMETER, SOH_DELIMETER);
 		this.sessionId = sessionId;
 		this.incoming = incoming;
 
-//		sendingTime = lookupSendingTime();
-        sendingTime = null;
+		// sendingTime = lookupSendingTime();
+		sendingTime = null;
 		messageTypeName = lookupMessageTypeName();
+		this.value = messageTypeName;
+		this.tag = getMessageType();
 	}
 
-	public List<LogField> getLogFields() {
+	public List<FixField> getLogFields() {
 		Message message = createMessage();
-		List<LogField> logFields = new ArrayList<>();
+		List<FixField> logFields = new ArrayList<>();
 		if (message != null) {
 			Map<Integer, Field> fields = getAllFields(message);
 
 			for (Integer fieldTag : fields.keySet()) {
-				LogField logField = createLogField(message, fields.get(fieldTag));
+				FixField logField = createLogField(message, fields.get(fieldTag));
 				logFields.add(logField);
 			}
 		}
@@ -72,12 +77,12 @@ public class LogMessage {
 		return allFields;
 	}
 
-	private LogField createLogField(Message message, Field field) {
+	private FixField createLogField(Message message, Field field) {
 
 		MsgType messageType = getMessageType(message);
 		String messageTypeValue = messageType.getValue();
 
-		LogField logField = LogField.creteLogField(messageType, field, dictionary);
+		FixField logField = FixField.creteLogField(messageType, field, dictionary);
 
 		addGroup(message, dictionary, field, logField, messageType, messageTypeValue);
 
@@ -90,9 +95,10 @@ public class LogMessage {
 		} catch (FieldNotFound fieldNotFound) {
 			throw new RuntimeException(fieldNotFound);
 		}
+
 	}
 
-	private void addGroup(Message message, DataDictionary dataDictionary, Field field, LogField logField, MsgType msgType, String msgTypeValue) {
+	private void addGroup(Message message, DataDictionary dataDictionary, Field field, FixField logField, MsgType msgType, String msgTypeValue) {
 		DataDictionary.GroupInfo groupInfo = dataDictionary.getGroup(msgTypeValue, field.getTag());
 		if (groupInfo != null) {
 
@@ -101,13 +107,13 @@ public class LogMessage {
 			int numOfGroup = Integer.valueOf((String) field.getObject());
 
 			for (int i = 0; i < numOfGroup; i++) {
-				LogGroup logGroup = new LogGroup(msgType, field, dictionary);
+				FixGroup logGroup = new FixGroup(msgType, field, dictionary);
 				try {
 					message.getGroup(i + 1, group);
 					Iterator<Field<?>> iterator = group.iterator();
 					while (iterator.hasNext()) {
 						Field groupField = iterator.next();
-						LogField logGroupField = LogField.creteLogField(msgType, groupField, dataDictionary);
+						FixField logGroupField = FixField.creteLogField(msgType, groupField, dataDictionary);
 						logGroup.addField(logGroupField);
 					}
 
@@ -144,5 +150,33 @@ public class LogMessage {
 			return null;
 		}
 		return dictionary.getValueName(MsgType.FIELD, messageTypeValue);
+	}
+
+	private String getMessageType() {
+		return FixMessageHelper.getMessageType(rawMessage, DEFAULT_DELIMETER);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

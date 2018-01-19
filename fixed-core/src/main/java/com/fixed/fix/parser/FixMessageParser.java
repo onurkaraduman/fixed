@@ -35,6 +35,8 @@ public class FixMessageParser {
 			return null;
 		}
 
+		line = line.substring(messageStartIndex);
+
 		String delimeter = getDelimeter(line);
 		while (delimeter == null) {
 			String nextLine = reader.readLine();
@@ -71,13 +73,21 @@ public class FixMessageParser {
 		if (endIndex == -1) {
 			return null;
 		}
-		return line.substring(endIndex - 1, endIndex);
+		String ch = line.substring(endIndex - 1, endIndex);
+		if (ch.equals("A")) {
+			String ch2 = line.substring(endIndex - 2, endIndex - 1);
+			if (ch2.equals("^"))
+				;
+			return ch2 + ch;
+		} else {
+			return line.substring(endIndex - 1, endIndex);
+		}
 
 	}
 
 	private String correctDelimeter(String line, String delimeter) {
 		if (!delimeter.equals(SOH_STRING)) {
-			if (delimeter.length() == 1) {
+			if (delimeter.length() > 0) {
 				line = line.replaceAll("\\" + delimeter, SOH_STRING);
 			} else {
 				line = line.replaceAll(delimeter, SOH_STRING);

@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class TextPane extends GridPane implements Component {
 				saveHandler.handle(event);
 			}
 		});
-		textArea = new TextArea("No content");
+		textArea = new TextArea();
+		textArea.setPromptText("No Content");
 
 		textArea.textProperty().addListener(new ChangeListener<String>() {
 			@Override

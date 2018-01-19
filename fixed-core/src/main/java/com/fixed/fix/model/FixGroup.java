@@ -7,20 +7,20 @@ import quickfix.field.MsgType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogGroup extends LogField {
+public class FixGroup extends FixField {
 
-	private final List<LogField> fields;
+	private final List<FixField> fields;
 
-	public LogGroup(MsgType msgType, Field field, DataDictionary dataDictionary) {
+	public FixGroup(MsgType msgType, Field field, DataDictionary dataDictionary) {
 		super(msgType, field, dataDictionary);
 		fields = new ArrayList<>();
 	}
 
-	public void addField(LogField logField) {
+	public void addField(FixField logField) {
 		fields.add(logField);
 	}
 
-	public List<LogField> getFields() {
+	public List<FixField> getFields() {
 		return fields;
 	}
 }

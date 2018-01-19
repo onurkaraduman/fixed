@@ -93,7 +93,7 @@ public class FixEditor implements Editor {
 		});
 		fixMessagePane.addChangeHandler(event -> {
 			try {
-				fixTab.loadMessage(fixMessagePane.getContent(), null);
+				fixTab.loadMessage(fixMessagePane.getContent());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ConfigError configError) {

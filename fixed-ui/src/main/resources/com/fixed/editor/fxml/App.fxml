@@ -20,8 +20,8 @@
             <SplitPane dividerPositions="0.3058823529411765" AnchorPane.bottomAnchor="0.0"
                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <fx:include fx:id="dictionaryTab" source="DictionaryTab.fxml" />
-                <fx:include fx:id="xmlTab" source="XmlTab.fxml" />
+                <fx:include fx:id="fixMessageTab" source="FixMessageTab.fxml" />
+                <fx:include fx:id="fixTab" source="FixTab.fxml" />
               </items>
             </SplitPane>
           </children>
@@ -32,8 +32,8 @@
             <SplitPane dividerPositions="0.3058823529411765" AnchorPane.bottomAnchor="0.0"
                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <fx:include fx:id="fixMessageTab" source="FixMessageTab.fxml" />
-                <fx:include fx:id="fixTab" source="FixTab.fxml" />
+                <fx:include fx:id="dictionaryTab" source="DictionaryTab.fxml" />
+                <fx:include fx:id="xmlTab" source="XmlTab.fxml" />
               </items>
             </SplitPane>
           </children>

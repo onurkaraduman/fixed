@@ -12,12 +12,12 @@ import java.nio.file.Paths;
  */
 public class Test {
 
-    @org.junit.Test
-    public void test() throws DocumentException {
-        XmlReader xmlReader = new XmlReader(Paths.get("src/main/resources/com/fixed/tree/fix44-short.xml"));
-        Document document = xmlReader.getDocument();
-        Element rootElement = document.getRootElement();
-        Element testElement = DocumentHelper.createElement("testElement");
-        rootElement.add(testElement);
-    }
+	@org.junit.Test
+	public void test() throws DocumentException {
+		XmlReader xmlReader = new XmlReader(Paths.get(getClass().getClassLoader().getResource("fix44-short.xml").getPath()));
+		Document document = xmlReader.getDocument();
+		Element rootElement = document.getRootElement();
+		Element testElement = DocumentHelper.createElement("testElement");
+		rootElement.add(testElement);
+	}
 }

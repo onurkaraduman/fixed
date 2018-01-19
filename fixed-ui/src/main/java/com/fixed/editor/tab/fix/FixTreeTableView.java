@@ -1,24 +1,22 @@
 package com.fixed.editor.tab.fix;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.scene.control.TreeTableView;
-import org.dom4j.DocumentException;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.dom4j.Element;
 
 import com.fixed.fix.builder.MessageBuilder;
-import com.fixed.fix.model.LogField;
-import com.fixed.fix.model.LogGroup;
-import com.fixed.fix.model.LogMessage;
+import com.fixed.fix.model.FixField;
+import com.fixed.fix.model.FixGroup;
+import com.fixed.fix.model.FixMessage;
 import com.fixed.fix.parser.FixMessageParser;
 import com.fixed.fix.source.Source;
-import com.fixed.fix.source.SourceFactory;
 import com.fixed.logging.Logger;
 
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableView;
 import quickfix.ConfigError;
 import quickfix.DataDictionary;
 
@@ -41,30 +39,22 @@ public class FixTreeTableView extends TreeTableView {
 		setEditable(true);
 	}
 
-	public void loadMessage(String message, Path dictPath) throws IOException, ConfigError {
-		Source source = SourceFactory.createMemorySource(message);
-		loadMessage(source, dictPath);
-	}
-
-	public void loadMessage(Path fixPath, Path dictPath) throws DocumentException, IOException, ConfigError {
-		fixMessagePath = fixPath.toAbsolutePath().toString();
-		Source fileSource = SourceFactory.createFileSource(fixMessagePath);
-		loadMessage(fileSource, dictPath);
-	}
-
-	private void loadMessage(Source source, Path dictPath) throws IOException, ConfigError {
-		FixMessageParser fixParser = new FixMessageParser(source);
+	public void loadMessage(Source fixmessage, Source dictionary) throws IOException, ConfigError {
+		FixMessageParser fixParser = new FixMessageParser(fixmessage);
 		List<String> parse = fixParser.parse();
 		MessageBuilder builder = new MessageBuilder();
-		DataDictionary dataDictionary = new DataDictionary(dictPath.toAbsolutePath().toString());
-		List<LogMessage> messages = builder.createLogMessages(parse, dataDictionary);
-		TreeItem<Object> treeItem = new TreeItem<>(messages.get(0).getLogFields().get(0));
-		for (LogMessage logMessage : messages) {
-			for (LogField logField : logMessage.getLogFields()) {
+		DataDictionary dataDictionary = new DataDictionary(new ReaderInputStream(dictionary.getReader()));
+		List<FixMessage> messages = builder.createLogMessages(parse, dataDictionary);
+		TreeItem<Object> rootItem = new TreeItem<>();
+		for (FixMessage logMessage : messages) {
+			TreeItem<Object> treeItem = new TreeItem<>(logMessage);
+			for (FixField logField : logMessage.getLogFields()) {
 				treeItem.getChildren().add(convertToTreeItem(logField));
 			}
+			rootItem.getChildren().add(treeItem);
 		}
-		setRoot(treeItem);
+		setShowRoot(false);
+		setRoot(rootItem);
 	}
 
 	/**
@@ -92,13 +82,14 @@ public class FixTreeTableView extends TreeTableView {
 
 	private TreeItem<Object> convertToTreeItem(Object element) {
 		TreeItem<Object> treeItem = new TreeItem<>(element);
-		if (element instanceof LogField) {
-			for (LogGroup logGroup : ((LogField) element).getGroups()) {
-				convertToTreeItem(logGroup);
+
+		if (element instanceof FixGroup) {
+			for (FixField logField : ((FixGroup) element).getFields()) {
+				treeItem.getChildren().add(convertToTreeItem(logField));
 			}
-		} else if (element instanceof LogGroup) {
-			for (LogField logField : ((LogGroup) element).getFields()) {
-				convertToTreeItem(logField);
+		} else if (element instanceof FixField) {
+			for (FixGroup logGroup : ((FixField) element).getGroups()) {
+				treeItem.getChildren().add(convertToTreeItem(logGroup));
 			}
 		}
 		return treeItem;
