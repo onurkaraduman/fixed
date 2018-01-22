@@ -91,18 +91,18 @@ public class FixEditor implements Editor {
 			} catch (DocumentException e) {
 				LOG.error("Error during dictionaryTab loading:", e);
 			} catch (ConfigError configError) {
-				configError.printStackTrace();
+				LOG.error("", configError);
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOG.error("", e);
 			}
 		});
 		fixMessagePane.addChangeHandler(event -> {
 			try {
 				fixTab.loadMessage(fixMessagePane.getContent());
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOG.error("", e);
 			} catch (ConfigError configError) {
-				configError.printStackTrace();
+				LOG.error("", configError);
 			}
 		});
 	}

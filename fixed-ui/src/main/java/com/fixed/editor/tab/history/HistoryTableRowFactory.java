@@ -3,6 +3,7 @@ package com.fixed.editor.tab.history;
 import com.fixed.editor.history.XmlEditorMemento;
 import com.fixed.editor.tab.common.TextTab;
 import com.fixed.editor.tab.xml.XmlTab;
+import com.fixed.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -14,33 +15,35 @@ import java.io.IOException;
 
 public class HistoryTableRowFactory<T> implements Callback<TableView<T>, TableRow<T>> {
 
-    private XmlTab xmlTab;
-    private TextTab textTab;
+	private Logger LOG = Logger.getLogger(HistoryTableRowFactory.class);
 
-    public HistoryTableRowFactory(XmlTab xmlTab, TextTab textTab) {
-        this.xmlTab = xmlTab;
-        this.textTab = textTab;
-    }
+	private XmlTab xmlTab;
+	private TextTab textTab;
 
-    @Override
-    public TableRow<T> call(TableView<T> param) {
+	public HistoryTableRowFactory(XmlTab xmlTab, TextTab textTab) {
+		this.xmlTab = xmlTab;
+		this.textTab = textTab;
+	}
 
-        final TableRow<T> row = new TableRow<>();
-        final ContextMenu contextMenu = new ContextMenu();
-        final MenuItem menuItem = new MenuItem("Go to state");
-        menuItem.setOnAction(event -> {
-            xmlTab.setState((XmlEditorMemento) row.getItem());
-            try {
-                textTab.loadXml(xmlTab.toXml());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+	@Override
+	public TableRow<T> call(TableView<T> param) {
 
-        contextMenu.getItems().add(menuItem);
+		final TableRow<T> row = new TableRow<>();
+		final ContextMenu contextMenu = new ContextMenu();
+		final MenuItem menuItem = new MenuItem("Go to state");
+		menuItem.setOnAction(event -> {
+			xmlTab.setState((XmlEditorMemento) row.getItem());
+			try {
+				textTab.loadXml(xmlTab.toXml());
+			} catch (IOException e) {
+				LOG.error("", e);
+			}
+		});
 
-        row.contextMenuProperty().bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenu));
+		contextMenu.getItems().add(menuItem);
 
-        return row;
-    }
+		row.contextMenuProperty().bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(contextMenu));
+
+		return row;
+	}
 }

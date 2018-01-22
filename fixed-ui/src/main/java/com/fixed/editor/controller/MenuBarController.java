@@ -1,6 +1,7 @@
 package com.fixed.editor.controller;
 
 import com.fixed.editor.App;
+import com.fixed.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
@@ -9,6 +10,8 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import java.io.IOException;
 
 public class MenuBarController {
+
+	private Logger LOG = Logger.getLogger(MenuBarController.class);
 
 	@FXML
 	private MenuBar menuBar;
@@ -49,9 +52,9 @@ public class MenuBarController {
 		try {
 			alert.setHeaderText("fixed " + AppController.editor.getVersion());
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("Exception", e);
 		} catch (XmlPullParserException e) {
-			e.printStackTrace();
+			LOG.error("Xml Parse exception", e);
 		}
 		alert.setContentText("Fix Messages Manager");
 

@@ -1,12 +1,15 @@
 package com.fixed.fix.model;
 
 import com.fixed.fix.util.FixMessageHelper;
+import com.fixed.logging.Logger;
 import quickfix.*;
 import quickfix.field.MsgType;
 
 import java.util.*;
 
 public class FixMessage {
+
+	private Logger LOG  = Logger.getLogger(FixMessage.class);
 
 	public static final char DEFAULT_DELIMETER = (char) 0x01;
 	public static final char SOH_DELIMETER = (char) 0x01;
@@ -118,7 +121,7 @@ public class FixMessage {
 					}
 
 				} catch (FieldNotFound fieldNotFound) {
-					fieldNotFound.printStackTrace();
+					LOG.error("",fieldNotFound);
 				}
 				logField.addGroup(logGroup);
 			}
@@ -129,7 +132,7 @@ public class FixMessage {
 		try {
 			return new Message(rawMessage, dictionary, false);
 		} catch (InvalidMessage invalidMessage) {
-			invalidMessage.printStackTrace();
+			LOG.error("", invalidMessage);
 		}
 		return null;
 	}
