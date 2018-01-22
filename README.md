@@ -4,6 +4,9 @@
 
 The tool is created for visualization of fix protocol messages based on given fix dictionary.
 
+ ![GUI Overview](doc/images/fixed-gui-overview.png)
+
+
 ### Technology Stack
 * JavaFX
 
